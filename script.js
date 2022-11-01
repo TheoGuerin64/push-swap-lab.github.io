@@ -3,6 +3,10 @@ function checkIfDuplicateExists(arr) {
     return new Set(arr).size !== arr.length
 }
 
+function getRandomInt(min, max) {
+	return Math.round(Math.random() * (max - min) + min);
+}
+
 // errors
 function parse_error(stack_a, stack_b) {
 	stack_a.innerHTML = ""
@@ -32,13 +36,13 @@ document.getElementById("stack_input").onkeydown = function(event) {
 			parse_error(stack_a, stack_b)
 			return
 		}
-		for (const element of split) {
-			if (isNaN(parseInt(element))) {
+		for (const el of split) {
+			if (isNaN(parseInt(el))) {
 				parse_error(stack_a, stack_b)
 				return
 			} else {
 				li = document.createElement("li")
-				li.textContent = element
+				li.textContent = el
 				stack_a.append(li)
 			}
 		}
@@ -89,6 +93,71 @@ document.onkeydown = function(event) {
 					console.error("History error: this command doesn't exist.")
 			}
 	}
+}
+
+function updateRange(select) {
+	if (select.value == "range")
+		document.getElementsByClassName("range")[0].style.display = "flex"
+	else
+		document.getElementsByClassName("range")[0].style.display = "none"
+}
+
+function switch_popup() {
+	var popup = document.getElementById("generate_popup")
+
+	if (popup.style.display == "none" || popup.style.display == "")
+		popup.style.display = "flex"
+	else
+		popup.style.display = "none"
+}
+
+function generate_numbers() {
+	var select = document.getElementsByClassName("select_type")[0]
+	var size = parseInt(document.getElementsByClassName("size")[0].value)
+
+	result = []
+	if (!isNaN(size) && size >= 1 && size <= 1000)
+	{
+		if (select.value == "random") {
+			var tmp
+
+			for (let i = 0 ; i < size ; i++) {
+				tmp = getRandomInt(-2147483648, 2147483647)
+				if (result.includes(tmp))
+					i--
+				else
+					result.push(tmp)
+			}
+			document.getElementById("stack_input").value = result.join(' ')
+			switch_popup()
+		}
+		else if (select.value == "range") {
+			var min_range = parseInt(document.getElementsByClassName("min_range")[0].value)
+			var max_range = parseInt(document.getElementsByClassName("max_range")[0].value)
+
+			if (!isNaN(min_range) && !isNaN(max_range) && min_range <= max_range && max_range - min_range + 1 >= size) {
+				for (let i = 0 ; i < size ; i++) {
+					tmp = getRandomInt(min_range, max_range)
+					if (result.includes(tmp))
+						i--
+					else
+						result.push(tmp)
+				}
+				document.getElementById("stack_input").value = result.join(' ')
+				switch_popup()
+			}
+		}
+	}
+}
+
+function import_history()
+{
+	var text = window.prompt("History:","commands")
+
+	if (text)
+		for (const el of text.split(' ')) {
+			window[el]()
+		}
 }
 
 // commands
@@ -230,3 +299,5 @@ rr = command(rr)
 rra = command(rra)
 rrb = command(rrb)
 rrr = command(rrr)
+
+updateRange(document.getElementsByClassName("select_type")[0])
