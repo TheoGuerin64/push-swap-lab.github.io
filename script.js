@@ -1,3 +1,6 @@
+// global
+var redo = []
+
 // utils
 function checkIfDuplicateExists(arr) {
     return new Set(arr).size !== arr.length
@@ -25,6 +28,7 @@ document.getElementById("stack_input").onkeydown = function(event) {
 		var split;
 		var li;
 
+		redo = []
 		stack_a.innerHTML = ""
 		stack_b.innerHTML = ""
 		history.innerHTML = ""
@@ -50,48 +54,53 @@ document.getElementById("stack_input").onkeydown = function(event) {
 }
 
 document.onkeydown = function(event) {
-	if (event.key == 'z' && event.ctrlKey)
-	{
+	if (event.key == 'z' && event.ctrlKey) { // undo
 		var history = document.getElementById("history")
 
 		if (history.childElementCount > 1)
 			switch (history.children[1].innerText) {
 				case "sa":
-					sa(true)
+					sa(true, "sa")
 					break
 				case "sb":
-					sb(true)
+					sb(true, "sb")
 					break
 				case "ss":
-					ss(true)
+					ss(true, "ss")
 					break
 				case "pa":
-					pb(true)
+					pb(true, "pa")
 					break
 				case "pb":
-					pa(true)
+					pa(true, "pb")
 					break
 				case "ra":
-					rra(true)
+					rra(true, "ra")
 					break
 				case "rb":
-					rrb(true)
+					rrb(true, "rb")
 					break
 				case "rr":
-					rrr(true)
+					rrr(true, "rr")
 					break
 				case "rra":
-					ra(true)
+					ra(true, "rra")
 					break
 				case "rrb":
-					rb(true)
+					rb(true, "rrb")
 					break
 				case "rrr":
-					rr(true)
+					rr(true, "rrr")
 					break
 				default:
 					console.error("History error: this command doesn't exist.")
 			}
+	}
+	else if ((event.key == 'y' && event.ctrlKey) || (event.key == 'Z' && event.ctrlKey)) { //redo
+		if (redo.length != 0) {
+			window[redo[0]](false, "r")
+			redo.shift()
+		}
 	}
 }
 
@@ -162,18 +171,21 @@ function import_history()
 
 // commands
 function command(func) {
-	return function(is_undo = false) {
+	return function(is_undo = false, prev = "") {
 		var history = document.getElementById("history")
 
 		if (!func(document.getElementById("stack_a"), document.getElementById("stack_b")))
 			return
 		if (is_undo)
 		{
+			redo.unshift(prev)
 			history.children[0].innerText = "Total: " + (parseInt(history.children[0].innerText.slice(7)) - 1)
 			history.removeChild(history.children[1])
 		}
 		else
 		{
+			if (prev == "")
+				redo = []
 			history.children[0].innerText = "Total: " + (parseInt(history.children[0].innerText.slice(7)) + 1)
 			var li = document.createElement("li")
 			li.textContent = func.name
