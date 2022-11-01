@@ -61,7 +61,7 @@ main {
 	border-left-style: none;
 	border-block-end: none;
 	text-align: center;
-	overflow-y: scroll;
+	overflow-y: auto;
 	align-items: stretch;
 	border-top: none;
 }
