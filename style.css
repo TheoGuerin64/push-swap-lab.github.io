@@ -1,0 +1,65 @@
+body, html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	overflow: hidden;
+}
+
+main {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+#lists {
+	flex: 1;
+	display: flex;
+}
+
+.data-list {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	font-size: 4vh;
+}
+
+.data-list li {
+	list-style: none;
+	user-select: none;
+}
+
+.btn-list {
+	width: 50%;
+}
+
+.btn-list li {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(221, 221, 221);
+	border: 1px solid black;
+	border-block-end: none;
+	cursor: pointer;
+}
+
+.text-list {
+	max-height: calc(100vh - 23px);
+	border: 1px solid black;
+	border-left-style: none;
+	border-block-end: none;
+	text-align: center;
+	overflow-y: scroll;
+	align-items: stretch;
+}
+
+input {
+	width: 100%;
+}
