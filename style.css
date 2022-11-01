@@ -38,6 +38,10 @@ main {
 	width: 50%;
 }
 
+.btn-list li:first-child {
+	border-top: none;
+}
+
 .btn-list li {
 	width: 100%;
 	height: 100%;
@@ -46,7 +50,8 @@ main {
 	justify-content: center;
 	background-color: rgb(221, 221, 221);
 	border: 1px solid black;
-	border-block-end: none;
+	border-bottom: none;
+	border-left: none;
 	cursor: pointer;
 }
 
@@ -58,8 +63,10 @@ main {
 	text-align: center;
 	overflow-y: scroll;
 	align-items: stretch;
+	border-top: none;
 }
 
 input {
 	width: 100%;
+	outline: none;
 }
