@@ -67,6 +67,51 @@ main {
 }
 
 input {
-	width: 100%;
 	outline: none;
+}
+
+#input {
+	width: 100%;
+	display: flex;
+}
+
+#input input{
+	flex: 1;
+}
+
+#generate_popup {
+	display: none;
+	width: 200px;
+	height: 120px;
+	padding: 10px;
+	border-radius: 20px;
+	flex-direction: column;
+	background-color: rgb(167, 167, 167);
+	position: absolute;
+	top: calc(50% - 70px);
+	left: calc(50% - 110px);
+}
+
+#generate_popup * {
+	margin-bottom: 5px;
+}
+
+#generate_popup .range {
+	display: flex;
+}
+
+#generate_popup .range input {
+	width: 100%;
+}
+
+#generate_popup .buttons {
+	margin: 0;
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: end;
+}
+
+#generate_popup .buttons button {
+	width: 60px;
 }
